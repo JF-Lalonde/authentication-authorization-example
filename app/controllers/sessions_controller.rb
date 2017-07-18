@@ -6,8 +6,15 @@ class SessionsController < ApplicationController
     @user = User.find_by(username: params[:session][:username])
     if @user.authenticate(params[:session][:password])
       session[:user_id] = @user.id
+      flash[:notice] = "Successful login"
       redirect_to @user
     else
     end
+  end
+
+  def destroy
+    session[:user_id] = nil
+    flash[:notice] = "Goodbye"
+    redirect_to root_path
   end
 end
